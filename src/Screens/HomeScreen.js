@@ -1,10 +1,17 @@
 import React from "react";
-import { ScrollView, Component, Image, StyleSheet, Text, View } from 'react-native';
-import FeedApi from "../Api/FeedApi"
+import { ScrollView, TouchableHighlight, Image, Button, Component, StyleSheet, Text, View } from 'react-native';
+import FeedApi from "../Api/FeedApi";
+import FeedDetail from './FeedDetail';
 
-export class HomeScreen extends React.Component {
+export default class HomeScreen extends React.Component {
 
-showFeedDetails(feed ) {
+ constructor(){
+   super()
+   //TODO: load feed
+ }
+
+
+_showFeedDetails(feed ) {
     FeedApi.fetchRss(feed.feedUrl)
     .then((res) => {
       if(res.responseStatus == 200) {
@@ -12,15 +19,13 @@ showFeedDetails(feed ) {
           this.props.navigator.push ({
             component: FeedDetail,
             title: feed.title,
-            rightButtonIcon: require('image!NavBarButtonSettings'),
+            rightButtonIcon: ()=> (<Button></Button>),
             onRightButtonPress: () => {this._showFeedActionSheet(feed)},
             passProps: {
               entries: entries
             }
           })
-        } else {
-        AlertIOS.alert(res.responseDetails);
-      }
+        } else { throw res.responseDetails;}
     });
   }
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-import {ScrollView, Component, Image, StyleSheet, Text, View } from 'react-native';
+import {ScrollView,TouchableHighlight, Component, Image, StyleSheet, Text, View } from 'react-native';
 import EntryDetail from './EntryDetail';
 
 export class FeedDetail extends React.Component {

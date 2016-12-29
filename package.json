@@ -10,10 +10,15 @@
     "react-addons-test-utils": "^15.4.1",
     "react-native-web": "^0.0.61",
     "react-native-web-player": "^1.9.0",
-    "react-scripts": "0.8.4"
+    "react-scripts": "0.8.4",
+    "eslint-config-airbnb": "^13.0.0"
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "author": {
+    "name": "valerysntx",
+    "email": "valery.sntx@gmail.com"
   },
   "name": "my-videos",
   "private": true,

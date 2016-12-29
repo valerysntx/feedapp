@@ -14,7 +14,18 @@ const Photo = ({ uri }) => <Image source={{ uri }} style={styles.image} />
 
 export default class App extends React.Component {
   render(){
-    return (<Card><Title>App Card</Title></Card>)
+    return (
+      <View>
+      <Title>Full-Stack Videos Feed</Title>
+      <Card style={styles.card}>
+      { 
+        new HomeScreen()._renderFeed({
+          'feedUrl': 'http://www.screencast.com/users/valery.sntx/playlists/full-stack/rss'
+        })
+      }
+      </Card>
+      </View>
+      )
   }
 }
 

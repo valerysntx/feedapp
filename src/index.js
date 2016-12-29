@@ -3,6 +3,5 @@ import React, { AppRegistry, ScrollView, Component, Image, StyleSheet, Text, Vie
 import App from './App';
 
 // App registration and rendering
-AppRegistry.registerComponent('MyApp',() => App);
-AppRegistry.registerRunnable('MyApp', App);
-AppRegistry.runApplication('MyApp', { rootTag: document.getElementById('react-root') })
+AppRegistry.registerComponent('MyApp',()=> App);
+AppRegistry.runApplication('MyApp', { rootTag: document.getElementById('root') })
