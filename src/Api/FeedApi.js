@@ -1,8 +1,7 @@
 import React from "react";
 import { View, Component } from 'react-native';
 
-export class FeedApi {    
-fetchRss(uri) {
+export const fetchRss = (uri) => {
  
     if (!(/^http:\/\//.test(uri))) {
       uri = "http://" + uri;
@@ -12,5 +11,4 @@ fetchRss(uri) {
     var url = GOOGLE_FEED_API_URL + encodeURIComponent(uri);
 
     return fetch(url).then((res) => res.json());
-  }
 }

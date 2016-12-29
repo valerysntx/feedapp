@@ -1,18 +1,18 @@
 import React from "react";
 import { ScrollView, TouchableHighlight, Image, Button, Component, StyleSheet, Text, View } from 'react-native';
-import FeedApi from "../Api/FeedApi";
+import { fetchRss } from "../Api/FeedApi";
 import FeedDetail from './FeedDetail';
 
 export default class HomeScreen extends React.Component {
 
  constructor(){
    super()
-   //TODO: load feed
+   //TODO: load feed 
  }
 
 
 _showFeedDetails(feed ) {
-    FeedApi.fetchRss(feed.feedUrl)
+    fetchRss(feed.feedUrl)
     .then((res) => {
       if(res.responseStatus == 200) {
         var entries = res.responseData.feed.entries;
