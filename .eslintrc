@@ -3,10 +3,19 @@
   "env": {
     "browser": true,
     "node": true,
-    "mocha": true,
+    "mocha": false,
+    "commonjs": true,
+    "amd": false,
+    "jest": true,
+    "jasmine": true,
+    "worker": false,
+    "protractor": false,
     "es6": true
   },
   "rules": {
+    
+    "no-use-before-define": ["warn", { "functions": true, "classes": false }],
+
     "react/no-multi-comp": "warn",
     "react/jsx-first-prop-new-line": ["warn", "multiline"],
     "react/prefer-stateless-function": "off",
@@ -37,6 +46,10 @@
     "no-underscore-dangle": "off",
     "arrow-parens": "off",
     "class-methods-use-this": "off",
+    "constructor-super":"warn",
+    "consistent-this":"error",
+    "rest-spread-spacing":"off",
+    "arrow-body-style":"warn",
     "no-bitwise": "off",
     "no-plusplus": "off",
     "no-console": "off",
@@ -58,7 +71,18 @@
   },
   "parser": "babel-eslint",
   "parserOptions": {
-    "sourceType": "module"
+    "sourceType": "module", 
+    "ecmaFeatures": {
+      "modules": true,
+      "spread": true,
+      "destructuring": true,
+      "experimentalObjectRestSpread": true,
+      "superInFunctions": true,
+      "jsx": true,
+      "arrowFunctions": true,
+      "generators": true,
+      "restParams": true     
+    }
   },
   "globals": {
     "__DEVELOPMENT__": true,

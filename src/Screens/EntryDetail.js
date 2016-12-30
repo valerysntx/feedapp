@@ -1,15 +1,14 @@
 import React from 'react';
-import 
-{ View,
+import { View,
   WebView,
   StyleSheet
 } from 'react-native';
 
 export class EntryDetail extends React.Component {
-  constructor(){
-    super(null)
+  constructor(props){
+    super(...props)
   }
-
+  
   render() 
   { 
     return ( <View style={styles.container}>

@@ -4,10 +4,10 @@ import {ScrollView,TouchableHighlight, Component, Image, StyleSheet, Text, View 
 import EntryDetail from './EntryDetail';
 
 export class FeedDetail extends React.Component {
-  constructor(){
-    super(null);
+  constructor(props){
+    super(...props);
   }
-
+  
   _showEntryDetails(entry) {
       this.props.navigator.push({
           component: EntryDetail,

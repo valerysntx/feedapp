@@ -1,33 +1,45 @@
 import React from "react";
-import { ScrollView, TouchableHighlight, Image, Button, Component, StyleSheet, Text, View } from 'react-native';
-import { fetchRss } from "../Api/FeedApi";
+import { UIManager, TouchableHighlight, Image, Button, StyleSheet, Text, View, Alert } from 'react-native';
+import {Api} from "../Api/FeedApi";
 import FeedDetail from './FeedDetail';
 
+var logo = require('./../logo.svg');
+
 export default class HomeScreen extends React.Component {
-
- constructor(){
-   super()
-   //TODO: load feed 
- }
-
-
-_showFeedDetails(feed ) {
-    fetchRss(feed.feedUrl)
-    .then((res) => {
-      if(res.responseStatus == 200) {
-        var entries = res.responseData.feed.entries;
-          this.props.navigator.push ({
-            component: FeedDetail,
-            title: feed.title,
-            rightButtonIcon: ()=> (<Button></Button>),
-            onRightButtonPress: () => {this._showFeedActionSheet(feed)},
-            passProps: {
-              entries: entries
-            }
-          })
-        } else { throw res.responseDetails;}
-    });
+  
+  constructor(props){
+    super(props);
   }
+
+  parseJSON(response) {  return JSON.parse(response)  }
+
+  updateState(prev,next) {
+    this.setState({entries: next});  
+  }
+
+  componentDidMount(){
+    Api.rss(this.props.feed.feedUrl).then(r=> 
+    this.setState({
+      feed:
+      {
+        feedUrl: this.props.feed.feedUrl,
+        entries: this.parseJSON(r),
+        title: this.props.feed
+      }})
+    );
+     
+  }
+
+  _renderIcon(feed){
+    return (<Image style={styles.icon} progressiveRenderingEnabled={true} source={logo}/>)
+  }
+
+_showFeedDetails( feed ) {
+    this.props = {feed};
+    Api.rss(this.props.feed.feedUrl).then(res => 
+        this.setState(this.parseJSON(res))
+    ).catch(e=> console.log(e));
+}
 
 _renderFeed(feed) {
     return (
@@ -78,5 +90,9 @@ var styles = StyleSheet.create({
     fontSize: 11,
     textAlign: 'right',
     color: "#B4AEAE",
+  },
+  icon: {
+    paddingTop: 20,
+    paddingBottom: 15
   }
 });

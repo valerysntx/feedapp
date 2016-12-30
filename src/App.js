@@ -19,7 +19,8 @@ export default class App extends React.Component {
       <Title>Full-Stack Videos Feed</Title>
       <Card style={styles.card}>
       { 
-        new HomeScreen()._showFeedDetails({
+        new HomeScreen()._renderFeed({
+          'title': 'full-stack',
           'feedUrl': 'http://www.screencast.com/users/valery.sntx/playlists/full-stack/rss'
         })
       }
