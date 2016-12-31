@@ -2,14 +2,13 @@ import React from "react";
 import { View, Component, AsyncCache } from 'react-native';
 import fetch from 'isomorphic-fetch'
 import fetchCached from 'fetch-cached';
+import {FEED_PROXY_API_URL} from '../Config';
 
 export const fetchRss = (uri) => {
   if (!(/^http:\/\//.test(uri))) {
     uri = "http://" + uri;
   }
-
-  var GOOGLE_FEED_API_URL = '//ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=-1&q=';
-  var url = GOOGLE_FEED_API_URL + encodeURIComponent(uri);
+  var url = FEED_PROXY_API_URL + encodeURIComponent(uri);
   return url;
 }
 
@@ -27,14 +26,22 @@ const _fetch = fetchCached({
   }
 });
 
-const _Get = (uri) => fetch(uri, { method:'GET', headers: acceptJsonCors(), mode:'no-cors' })
-                      .then(response => bodyReader(response))
+const _Get = (uri) => fetch(uri, { 
+  method:'GET', 
+  headers: acceptJsonCors(), 
+  mode:'cors' 
+}).then(response => resposeReader(response))
+  .catch(response => resposeReader(response))
             
-
-const bodyReader = (response) => {
-  return response.clone().json().catch(function() {
-    return response.text();
-  });
+const resposeReader = (response) => {
+  if (response.headers.get('Content-Type') === 'application/json') {
+    return Promise.resolve(response.clone().json())
+                  .then((response) => response)
+                  .catch(r=> Promise.resolve(response.body.getReader().read()));
+  }
+  return Promise.resolve(response.clone().text())
+                  .then((response) => response)
+                  .catch(r=> Promise.resolve(response.body.getReader().read()));
 }
 
 export const Api = {

@@ -1,6 +1,6 @@
 import React from "react";
 import { UIManager, TouchableHighlight, Image, Button, StyleSheet, Text, View, Alert } from 'react-native';
-import {Api} from "../Api/FeedApi";
+import { Api } from "../Api/FeedApi";
 import FeedDetail from './FeedDetail';
 
 var logo = require('./../logo.svg');
@@ -11,7 +11,8 @@ export default class HomeScreen extends React.Component {
     super(props);
   }
 
-  parseJSON(response) {  return JSON.parse(response)  }
+  parse(response) { return response }
+ parseJSON(response) {  return JSON.parse(response)  }
 
   updateState(prev,next) {
     this.setState({entries: next});  
@@ -29,23 +30,27 @@ export default class HomeScreen extends React.Component {
     );
      
   }
-
   _renderIcon(feed){
     return (<Image style={styles.icon} progressiveRenderingEnabled={true} source={logo}/>)
   }
 
-_showFeedDetails( feed ) {
-    this.props = {feed};
-    Api.rss(this.props.feed.feedUrl).then(res => 
-        this.setState(this.parseJSON(res))
-    ).catch(e=> console.log(e));
+async _showFeedDetails( feed ) {
+    this.props = {feed};  
+    this.props.feed.entries = { ... await Api.rss(this.props.feed.feedUrl).then(res => { 
+        return Promise.resolve(this.parse(res))
+    }).catch(r => {
+        return Promise.reject(this.parse(r))
+    }) 
+  }
 }
 
 _renderFeed(feed) {
     return (
       <TouchableHighlight
         underlayColor="rgba(0,0,0,.1)"
-        onPress={() => { this._showFeedDetails(feed) }}
+        onPress={(e) => {   
+          this._showFeedDetails(feed)
+      }}
         key={feed.length}>
         <View style={styles.wrapper}>
           <View style={styles.header}>
@@ -54,7 +59,7 @@ _renderFeed(feed) {
           <View style={styles.footer}>
             <Text style={styles.description}>{feed.description}</Text>
             <Text style={styles.smallText}>{feed.feedUrl}</Text>
-          </View>
+          </View> 
         </View>
       </TouchableHighlight>
     );
